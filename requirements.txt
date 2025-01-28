@@ -1,8 +1,11 @@
 pandas 
 numpy 
 seaborn
+matplotlib
+scikit-learn
+xgboost
+imbalanced-learn
 
 
 
-
--e .
+# -e .
