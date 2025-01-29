@@ -149,7 +149,6 @@ class DataTransformation:
             label_encoder = LabelEncoder()
             target_feature_train_df = label_encoder.fit_transform(target_feature_train_df)
             target_feature_test_df = label_encoder.transform(target_feature_test_df)
-            print(target_feature_train_df)
 
             # Apply SMOTETomek to handle class imbalance in the target column
             smote_tomek_obj = SMOTETomek(random_state=42)
@@ -158,11 +157,9 @@ class DataTransformation:
             input_feature_train_resampled_arr, target_feature_train_resampled_arr = smote_tomek_obj.fit_resample(input_feature_train_arr, np.array(target_feature_train_df))
 
             train_arr = np.c_[
-                input_feature_train_resampled_arr, np.array(target_feature_train_resampled_arr)
+                input_feature_train_resampled_arr, target_feature_train_resampled_arr
             ]
             test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
-            print(train_arr)
-            print(test_arr)
 
             save_object(
                 file_path=self.data_transformation_config.preprocessor_obj_file_path,
