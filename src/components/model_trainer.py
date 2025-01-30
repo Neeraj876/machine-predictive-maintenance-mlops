@@ -37,8 +37,37 @@ class ModelTrainer:
             "RandomForestClassifier": RandomForestClassifier(),
             "XGBClassifier": XGBClassifier(objective="multi:softmax", num_class=6, random_state=42), 
             }
+
+            params = {
+                "Logistic Regression": {
+                    'C': [0.1, 1, 10],  # Regularization strength. Smaller values apply stronger regularization.
+
+                    'solver': ['lbfgs', 'liblinear'],  # Optimization algorithms. 
+                },
+                
+                "SVC": {
+                    'C': [0.1, 1, 10],  # Regularization strength. Larger values make the decision boundary more complex, smaller values create a smoother boundary.
+
+                    'kernel': ['linear', 'rbf'],  # Types of kernels. 
+                },
+
+                "RandomForestClassifier": {
+                    'n_estimators': [100, 200],  # Number of trees in the forest. More trees generally lead to better performance but increase computation time.
+
+                    'max_depth': [None, 10, 20],  # Maximum depth of trees. 
+                },
+
+                "XGBClassifier": {
+                    'n_estimators': [100, 200],  # Number of boosting rounds. More rounds improve performance but can lead to overfitting.
+
+                    'learning_rate': [0.01, 0.1],  # Step size for each boosting round. 
+
+                    'max_depth': [3, 6],  # Maximum depth of each tree. 
+                }
+            }
+
             
-            model_report:dict=evaluate_models(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, models=models)
+            model_report:dict=evaluate_models(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, models=models, params=params)
 
             # To get best model score from dict
             best_model_score = max(sorted(model_report.values()))
