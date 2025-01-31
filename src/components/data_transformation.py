@@ -166,16 +166,16 @@ class DataTransformation:
             ]
             test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
 
-            # save_object(
-            #     file_path=self.data_transformation_config.preprocessor_obj_file_path,
-            #     obj=preprocessing_obj
-            # )
-            # save_object(
+            save_object(
+                file_path=self.data_transformation_config.preprocessor_obj_file_path,
+                obj=preprocessing_obj
+            )
+            save_object(
 
-            #     file_path=self.data_transformation_config.smote_tomek_obj_file_path,
-            #     obj=smote_tomek_obj
+                file_path=self.data_transformation_config.smote_tomek_obj_file_path,
+                obj=smote_tomek_obj
 
-            # )
+            )
 
             logging.info(f"Saved preprocessing and SMOTETomek objects.")
 
@@ -189,6 +189,6 @@ class DataTransformation:
 
 if __name__=="__main__":
     obj=DataTransformation()
-    obj.initiate_data_transformation("/mnt/c/Users/HP/ml_projects/maintenance/artifacts/train.csv", "/mnt/c/Users/HP/ml_projects/maintenance/artifacts/test.csv")
+    obj.initiate_data_transformation("/mnt/d/ml_projects/maintenance/artifacts/train.csv", "/mnt/d/ml_projects/maintenance/artifacts/test.csv")
 
 
