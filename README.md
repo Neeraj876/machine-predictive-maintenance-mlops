@@ -28,8 +28,8 @@ Key features in the dataset include:
 | `rotational speed`         | calculated from power of 2860 W, overlaid with a normally distributed noise.                         |
 | `torque`              | torque values are normally distributed around 40 Nm with an Ïƒ = 10 Nm and no negative values.                          |
 | `tool wear`          | The quality variants H/M/L add 5/3/2 minutes of tool wear to the used tool in the process.       |
-| `Failure Type`             | 'machine failure' label that indicates, whether the machine has failed in this particular data point for any of the following failure modes are true.                                      |
 | `Target`                   | Failure or Not.                                           |
+| `Failure Type`             | 'machine failure' label that indicates, whether the machine has failed in this particular data point for any of the following failure modes are true.                                      |
 
 
 ## 🎯 Goals Achieved
