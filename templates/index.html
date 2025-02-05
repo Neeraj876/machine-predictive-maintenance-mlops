@@ -3,11 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Machine Predictive Maintenance Classification</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Machine Predictive Maintenance</title>
 </head>
 <body>
     <h1 class="text-center">Welcome to the Home Page</h1>
     <p class="lead text-center">This application leverages machine learning to predict whether the machine will fail or not and the type of machine failure.</p>
+    <h2 class="text-center">Start Model training</h2>
+
+    <form id="trainForm" action="/train" method="POST">
+        <button type="submit" id="trainButton">Start Training</button>
+    </form>
+
+    <div id="responseMessage"></div>
+
+    <script>
+        document.getElementById("trainForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the default form submission
+            
+            // Show loading message
+            document.getElementById("responseMessage").innerText = "Training in progress...";
+
+            // Make the POST request to trigger training
+            fetch("/train", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("responseMessage").innerText = data;  // Show success message
+            })
+            .catch(error => {
+                document.getElementById("responseMessage").innerText = "An error occurred during training.";
+            });
+        });
+    </script>
 </body>
 </html>

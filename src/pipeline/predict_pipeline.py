@@ -2,8 +2,8 @@ import os
 import sys
 import pandas as pd
 from flask import request
-from src.exception import CustomException
-from src.utils import load_object
+from src.exception.exception import CustomException
+from src.utils.main_utils.utils import load_object
 
 class PredictPipeline:
     def __init__(self):

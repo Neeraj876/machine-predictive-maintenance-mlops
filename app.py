@@ -1,21 +1,49 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, Response
 import numpy as np
 import pandas as pd
+import pymongo
+import os, sys
+import certifi
+ca=certifi.where()
 
-from src.exception import CustomException
-from src.logger import logging
+from dotenv import load_dotenv
+load_dotenv()
+
+from src.exception.exception import CustomException
+from src.logging.logger import logging
 
 from src.pipeline.predict_pipeline import CustomData, PredictPipeline
+from src.pipeline.train_pipeline import TrainingPipeline
+
+# We can use this if we want to apply the ETL pipeline here
+
+# mongo_db_url=os.getenv("MONGO_DB_URL")
+# print(mongo_db_url)
+# client = pymongo.MongoClient(mongo_db_url, tlsCAFile=ca)
+
+# from src.constant.training_pipeline import DATA_INGESTION_COLLECTION_NAME
+# from src.constant.training_pipeline import DATA_INGESTION_DATABASE_NAME
+
+# database = client[DATA_INGESTION_DATABASE_NAME]
+# collection = database[DATA_INGESTION_COLLECTION_NAME]
 
 application=Flask(__name__)
 
 app=application
 
 # Route for a home page
-
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route("/train", methods=["POST"])
+def train_route():
+    try:
+        train_pipeline = TrainingPipeline()
+        train_pipeline.run_pipeline() 
+        return "Training is successful"  
+    except Exception as e:
+        raise CustomException(str(e), sys)
 
 @app.route('/predictdata', methods=['GET', 'POST'])
 def predict_datapoint():
@@ -44,7 +72,8 @@ def predict_datapoint():
         return render_template('home.html', results=results[0])
     
 if __name__=="__main__":
+    app.run(host="0.0.0.0")
     # app.run(host="127.0.0.1", port=5000) # For AWS Beanstalk
     # app.run(host="0.0.0.0", port=8080) # For AWS EC2
-    app.run(host="0.0.0.0", port=80) # For Azure web app
+    # app.run(host="0.0.0.0", port=80) # For Azure web app
 

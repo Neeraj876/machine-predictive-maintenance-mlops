@@ -8,16 +8,14 @@ from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from imblearn.combine import SMOTETomek
-from dataclasses import dataclass
+from src.entity.config_entity import DataTransformationConfig
+from src.entity.artifact_entity import DataValidationArtifact, DataTransformationArtifact
 
-from src.exception import CustomException
-from src.logger import logging
-from src.utils import save_object
+from src.exception.exception import CustomException
+from src.logging.logger import logging
+from src.utils.main_utils.utils import save_object, save_numpy_array_data
 
-@dataclass
-class DataTransformationConfig:
-    preprocessor_obj_file_path=os.path.join("artifacts", "preprocessor.pkl")
-    smote_tomek_obj_file_path=os.path.join("artifacts", "smotetomek.pkl")
+
 
 # Custom LabelEncoding Transformer
 class LabelEncodingTransformer(BaseEstimator, TransformerMixin):
@@ -68,8 +66,19 @@ class LabelEncodingTransformer(BaseEstimator, TransformerMixin):
             return X_encoded
         
 class DataTransformation:
-    def __init__(self):
-        self.data_transformation_config = DataTransformationConfig()
+    def __init__(self, data_validation_artifact:DataValidationArtifact, data_transformation_config:DataTransformationConfig):
+        try:
+            self.data_transformation_config = data_transformation_config
+            self.data_validation_artifact=data_validation_artifact
+        except Exception as e:
+            raise CustomException(e, sys)
+
+    @staticmethod    
+    def read_data(file_path) -> pd.DataFrame:
+        try:
+            return pd.read_csv(file_path)
+        except Exception as e:
+            raise CustomException(e, sys) 
     
     def get_data_transformer_object(self):
         '''
@@ -119,10 +128,10 @@ class DataTransformation:
         except Exception as e:
             raise CustomException(e, sys)
         
-    def initiate_data_transformation(self, train_path, test_path):
+    def initiate_data_transformation(self)-> DataTransformationArtifact:
         try:
-            train_df=pd.read_csv(train_path)
-            test_df=pd.read_csv(test_path)
+            train_df=DataTransformation.read_data(self.data_validation_artifact.valid_train_file_path)
+            test_df=DataTransformation.read_data(self.data_validation_artifact.valid_test_file_path)
 
             logging.info("Read train and test data completed")
 
@@ -166,29 +175,31 @@ class DataTransformation:
             ]
             test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
 
+            # Save numpy array data
+            save_numpy_array_data(self.data_transformation_config.transformed_train_file_path, array=train_arr)
+            save_numpy_array_data(self.data_transformation_config.transformed_test_file_path, array=test_arr)
             save_object(
-                file_path=self.data_transformation_config.preprocessor_obj_file_path,
-                obj=preprocessing_obj
-            )
-            save_object(
-
-                file_path=self.data_transformation_config.smote_tomek_obj_file_path,
-                obj=smote_tomek_obj
-
+                self.data_transformation_config.transformed_object_file_path,
+                preprocessing_obj
             )
 
-            logging.info(f"Saved preprocessing and SMOTETomek objects.")
+            logging.info(f"Saved the arrays and object.")
 
-            return (
-                    train_arr,
-                    test_arr,
-                    self.data_transformation_config.preprocessor_obj_file_path,
-                )
+            save_object( "final_model/preprocessor.pkl", preprocessing_obj)
+
+
+            # Preparing artifacts 
+            data_transformation_artifact=DataTransformationArtifact(
+            transformed_object_file_path=self.data_transformation_config.transformed_object_file_path,
+            transformed_train_file_path=self.data_transformation_config.transformed_train_file_path,                        transformed_test_file_path=self.data_transformation_config.transformed_test_file_path                           )
+
+            return data_transformation_artifact
         except Exception as e:
                 raise CustomException(e,sys)
 
 if __name__=="__main__":
-    obj=DataTransformation()
-    obj.initiate_data_transformation("/mnt/d/ml_projects/maintenance/artifacts/train.csv", "/mnt/d/ml_projects/maintenance/artifacts/test.csv")
+    # obj=DataTransformation()
+    # obj.initiate_data_transformation("/mnt/d/ml_projects/maintenance/artifacts/train.csv", "/mnt/d/ml_projects/maintenance/artifacts/test.csv")
+    pass
 
 
