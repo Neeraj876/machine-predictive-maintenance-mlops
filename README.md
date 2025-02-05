@@ -1,6 +1,6 @@
 <div align="center">
     <h1>MLOps Solution for Machine Predictive Maintenance</h1>
-    ![Project Architecture](_assets/architecture.gif)
+<img width="1000" alt="image" src="_assets/machine_architecture.gif">
 </div>
 
 ## Table of Contents
@@ -32,29 +32,30 @@ Key features in the dataset include:
 | `Failure Type`             | 'machine failure' label that indicates, whether the machine has failed in this particular data point for any of the following failure modes are true.                                      |
 
 
-## 🎯 Goals Achieved
+## Goals Achieved
 - Developed a comprehensive pipeline for data ingestion, validation, transformation, and model training.
 - Implemented a machine learning model capable of predicting machine failure and the type of failure with high accuracy.
 - Established a deployment pipeline to facilitate continuous integration and continuous delivery/deployment of the model.
 
-## 🛠️ Project Methodology
+## Project Methodology
+
 ### Data Ingestion
 The project begins with data ingestion, where data is collected from a MongoDB database. The data is then exported into a structured format for further processing.
-<img width="1000" alt="image" src="https://github.com/user-attachments/assets/8eaa17e2-1359-4828-a4fd-3d5908dc44aa">
+<img width="1000" alt="image" src="_assets/data_ingestion.png">
 
 ### Data Validation
 Once the data is ingested, it undergoes validation to ensure its quality and integrity. This step checks for schema conformity, and potential dataset drift.
-<img width="1000" alt="image" src="https://github.com/user-attachments/assets/842306b2-8aff-4a69-9f0e-785316f33956">
+<img width="1000" alt="image" src="_assets/data_validation.png">
 
 ### Data Transformation
 After validation, the data is transformed to prepare it for modeling. This includes handling missing values, feature scaling, and encoding categorical variables.
-<img width="1000" alt="image" src="https://github.com/user-attachments/assets/4fe65518-b248-4297-ba97-e94679d1e22c">
+<img width="1000" alt="image" src="_assets/data_transformation.png">
 
-### Model Building & Testing
-The core of the project involves building and testing various machine learning models. The best-performing model is selected based on evaluation metrics such as f1-score.
-<img width="1000" alt="image" src="https://github.com/user-attachments/assets/d5d7bd50-0590-45d8-a864-2fe01c314d5f">
+### Model Training & Evaluation 
+The core of the project involves training and evaluating various machine learning models. The best-performing model is selected based on evaluation metrics such as f1-score.
+<img width="1000" alt="image" src="_assets/model.png">
 
 ### Deployment Pipeline
-Finally, the trained model is deployed using FastAPI, allowing users to make predictions through a web interface. The deployment pipeline ensures that the model can be updated seamlessly as new data becomes available.
-<img width="1000" alt="image" src="https://github.com/user-attachments/assets/6369e6e6-65c3-4a1e-965e-f2cc2252db08">
+The trained model is served using Flask and containerized with Docker. The Docker image is pushed to **Amazon ECR** for deployment on an **EC2 instance** and to **Azure Container Registry (ACR)** for deployment on an **Azure Web App**. Additionally, the app (non-Dockerized) is deployed to **AWS Elastic Beanstalk**, showcasing multiple deployment methods across cloud platforms. A **CI/CD pipeline using GitHub Actions** automates the deployment process, ensuring seamless updates as new data or model versions become available.
+<img width="1000" alt="image" src="_assets/deployment_pipeline.png">
 
