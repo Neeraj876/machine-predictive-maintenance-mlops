@@ -59,3 +59,17 @@ The core of the project involves training and evaluating various machine learnin
 The trained model is served using Flask and containerized with Docker. The Docker image is pushed to **Amazon ECR** for deployment on an **EC2 instance** and to **Azure Container Registry (ACR)** for deployment on an **Azure Web App**. Additionally, the app (non-Dockerized) is deployed to **AWS Elastic Beanstalk**, showcasing multiple deployment methods across cloud platforms. A **CI/CD pipeline using GitHub Actions** automates the deployment process, ensuring seamless updates as new data or model versions become available.
 <img width="1000" alt="image" src="_assets/deployment_pipeline.png">
 
+---
+
+## Getting Started
+### Prerequisites
+- Docker
+- Python 3.8+
+- Cloud account (AWS/Azure)
+- GitHub Actions
+
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Neeraj876/machine-predictive-maintenance-mlops.git
+   cd machine-predictive-maintenance-mlops
