@@ -1,6 +1,6 @@
 <div align="center">
     <h1>MLOps Solution for Machine Predictive Maintenance</h1>
-<img width="1000" alt="image" src="_assets/machine_architecture.gif">
+<img width="" alt="image" src="_assets/machine_architecture.gif">
 </div>
 
 ## Table of Contents
