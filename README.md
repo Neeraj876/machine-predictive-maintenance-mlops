@@ -57,7 +57,7 @@ The core of the project involves training and evaluating various machine learnin
 
 ### Deployment Pipeline
 The trained model is served using Flask and containerized with Docker. The Docker image is pushed to **Amazon ECR** for deployment on an **EC2 instance** and to **Azure Container Registry (ACR)** for deployment on an **Azure Web App**. Additionally, the app (non-Dockerized) is deployed to **AWS Elastic Beanstalk**, showcasing multiple deployment methods across cloud platforms. A **CI/CD pipeline using GitHub Actions** automates the deployment process, ensuring seamless updates as new data or model versions become available.
-<img width="1000" alt="image" src="_assets/deployment_pipeline.png">
+<img width="750" alt="image" src="_assets/deployment_pipeline.png">
 
 ---
 
